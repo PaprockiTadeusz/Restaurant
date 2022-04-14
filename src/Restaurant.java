@@ -1,64 +1,42 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Restaurant {
     public static void main(String[] args) {
 
-        Menu menu = initializeMenu();
+        Menu menu = Menu.initializeMenu();
+        Cooker bob = new Cooker("Bob", "Bobski", 20, 123, LocalDate.parse("2015-03-06"));
 
-//        Cooker bob = new Cooker("Bob", "Bobski", 20, 123, LocalDate.parse("2015-03-06"));
+        ArrayList<Order> orders = new ArrayList<>();
 
-        ArrayList<Order> onlineOrders = new ArrayList<>();
-        ArrayList<Order> stationaryOrders = new ArrayList<>();
+//        -----------------------------------------------------------------------------------------------------------------
 
-        ArrayList<Order> currentOrders = new ArrayList<>();
-        ArrayList<Order> lastOrders = new ArrayList<>();
-
-        Order sobieskiegoOnlineOrder = new Order(); onlineOrders.add(sobieskiegoOnlineOrder);
+        Order sobieskiegoOnlineOrder = new Order("Sobieskiego 13/12", true);
+        orders.add(sobieskiegoOnlineOrder);
         sobieskiegoOnlineOrder.add(menu.get(1));
         sobieskiegoOnlineOrder.add(menu.get(3));
-        sobieskiegoOnlineOrder.setAdress("Sobieskiego 13/12");
 
-        System.out.println(Order.calculatePrice(onlineOrders.get(0)));
+        Order firstStationaryOrder = new Order();
+        orders.add(firstStationaryOrder);
+        firstStationaryOrder.add(menu.get(5));
+        firstStationaryOrder.add(menu.get(8));
 
 
-
-
+        Order.showPrice(orders.get(1));
 
 //        menu.forEach(x -> System.out.println(x.toString()));
 
+        ArrayList<Order> onlineOreders = (ArrayList<Order>) orders.stream().filter(Order::isOnline).collect(Collectors.toList());
+        ArrayList<Order> stationaryOreders = (ArrayList<Order>) orders.stream().filter(Order::isNotOnline).collect(Collectors.toList());
+        stationaryOreders.forEach(System.out::println);
     }
 
-    public static Menu initializeMenu() {
 
-        Menu menu = new Menu();
 
-        Dish kfc = new Dish("Korean Fried Chickien", 29, true, false, true);
-        Dish mildFriedChicken = new Dish("Mild Fried Chicken", 29, true, false, false);
-        Dish spicyPork = new Dish("Spicy Pork", 29, false, false, true);
-        Dish teriyakiDuck = new Dish("Teriyaki Duck", 35, true, false, false);
-        Dish koreanTofu = new Dish("Korean Tofu", 29, true, true, false);
-        Dish braisedBeef = new Dish("Braised Beef", 33, true, false, false);
-
-        Dish smallWater = new Dish("Small Water", 4, true, true, false);
-        Dish bigWater = new Dish("Big Water", 6, true, true, false);
-        Dish redWine = new Dish("Red Wine", 15, true, true, false);
-        Dish whiteWine = new Dish("White Wine", 14, false, true, false);
-        Dish cola = new Dish("Cola", 5, true, true, false);
-
-        menu.add(kfc);
-        menu.add(mildFriedChicken);
-        menu.add(spicyPork);
-        menu.add(teriyakiDuck);
-        menu.add(koreanTofu);
-        menu.add(braisedBeef);
-
-        menu.add(smallWater);
-        menu.add(bigWater);
-        menu.add(redWine);
-        menu.add(whiteWine);
-        menu.add(cola);
-        return menu;
-
-    }
 }
+
+//        ArrayList<Order> stationaryOrders = new ArrayList<>();
+//
+//        ArrayList<Order> currentOrders = new ArrayList<>();
+//        ArrayList<Order> lastOrders = new ArrayList<>();
