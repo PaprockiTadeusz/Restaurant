@@ -7,6 +7,7 @@ public class Employee {
     private int age;
     private int telephoneNumber;
     private LocalDate dateOfEmployment;
+    private int tips;
 
     public Employee(String name, String surname, int age, int telephoneNumber, LocalDate dateOfEmployment) {
         this.name = name;

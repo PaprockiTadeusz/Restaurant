@@ -36,4 +36,8 @@ public class Menu extends ArrayList<Dish> {
 
     }
 
+    public static void showMenu(Menu menu){
+        menu.forEach(System.out::println);
+    }
+
 }
