@@ -98,7 +98,7 @@ public class Dish {
             this.isFinished = true;
         } else {
             try {
-                Thread.sleep(3000 / (long)(Kitchen.getDecreasedPercentages() * 1000));
+                Thread.sleep(3000);
                 isFinished = true;
                 System.out.println("Skonczono robic danie " + getName());
             } catch (InterruptedException e) {

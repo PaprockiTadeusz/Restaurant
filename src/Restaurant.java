@@ -1,9 +1,8 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Restaurant {
+
 
     public static void main(String[] args) {
 
@@ -27,12 +26,6 @@ public class Restaurant {
         employees.add(maja);
         employees.add(szczuru);
 
-
-//        Kitchen kitchen = new Kitchen(employees);
-//        kitchen.startKitchen();
-//        System.out.println(Kitchen.getDecreasedPercentages());
-//        Kitchen.setDecreasedPercentages(kitchen.checkNumberOfCookers());
-
         StationaryOrder firstOrder = new StationaryOrder(false);
         orders.add(firstOrder);
         firstOrder.add(menu.get(5));firstOrder.add(menu.get(8));
@@ -49,23 +42,17 @@ public class Restaurant {
         orders.add(thirOrder);
         thirOrder.add(menu.get(2));thirOrder.add(menu.get(6));
 
-//        Order.showPrice(orders.get(1));
-
-//        Zrobic klase abstrakcyjna ktora rozszerza dwie klasy
         Order.showOrders(orders);
         Order.showOrderIds(orders);
 
-        NewKitchen kit = new NewKitchen(employees);
+        Kitchen kit = new Kitchen(employees);
         kit.showEmployee();
-        System.out.println(kit.checkNumberOfCookers());
+//        kit.checkNumberOfCookers();
+        System.out.println("Liczba " + kit.decreasedPercentages);
 
 //        firstOrder.startMakingOrder(firstOrder);
 
-//        Menu.showMenu(menu);
-//        kitchen.
-//        kitchen.timer.scheduleAtFixedRate(kitchen.timerTask, 0, 1000);
     }
-
 
 
 }
