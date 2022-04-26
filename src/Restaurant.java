@@ -1,42 +1,69 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Restaurant {
+
     public static void main(String[] args) {
 
-        Menu menu = Menu.initializeMenu();
-        Cooker bob = new Cooker("Bob", "Bobski", 20, 123_456_789, LocalDate.parse("2015-03-06"));
 
+
+        Menu menu = Menu.initializeMenu();
+        ArrayList<Employee> employees = new ArrayList<Employee>();
         ArrayList<Order> orders = new ArrayList<>();
+        ArrayList<Order> currentOrders = new ArrayList<>();
+        ArrayList<Order> oldOrders = new ArrayList<>();
+
 
 //        -----------------------------------------------------------------------------------------------------------------
+        Waiter maja = new Waiter("Maja", "Janas", 27, 333_222_111, LocalDate.parse("2016-12-06"));
+        Cooker bob = new Cooker("Bob", "Bobski", 20, 123_456_789, LocalDate.parse("2015-03-06"));
+        Cooker robert = new Cooker("Robert", "Maklowicz", 58, 123_456_782, LocalDate.parse("2014-03-06"));
+        Supplier szczuru = new Supplier("Szczuru", "?", 120, 2115, LocalDate.parse("2019-03-06"));
 
-        Order sobieskiegoOnlineOrder = new Order("Sobieskiego 13/12", true);
-        orders.add(sobieskiegoOnlineOrder);
-        sobieskiegoOnlineOrder.add(menu.get(1));
-        sobieskiegoOnlineOrder.add(menu.get(3));
+        employees.add(bob);
+        employees.add(robert);
+        employees.add(maja);
+        employees.add(szczuru);
 
-        Order firstOrder = new Order();
+
+//        Kitchen kitchen = new Kitchen(employees);
+//        kitchen.startKitchen();
+//        System.out.println(Kitchen.getDecreasedPercentages());
+//        Kitchen.setDecreasedPercentages(kitchen.checkNumberOfCookers());
+
+        StationaryOrder firstOrder = new StationaryOrder(false);
         orders.add(firstOrder);
         firstOrder.add(menu.get(5));firstOrder.add(menu.get(8));
 
-        Order secondOrder = new Order();
+        StationaryOrder secondOrder = new StationaryOrder(false);
         orders.add(secondOrder);
         secondOrder.add(menu.get(4));secondOrder.add(menu.get(6));
 
-        Order thirdOrder = new Order("Niemcewicza 14", true);
-        orders.add(secondOrder);
-        secondOrder.add(menu.get(4));secondOrder.add(menu.get(6));
-
+        OnlineOrder thirdOrder = new OnlineOrder("Niemcewicza 14", true);
+        orders.add(thirdOrder);
+        thirdOrder.add(menu.get(2));thirdOrder.add(menu.get(6));
+        
+        OnlineOrder thirOrder = new OnlineOrder("Niemcewicza 16", true);
+        orders.add(thirOrder);
+        thirOrder.add(menu.get(2));thirOrder.add(menu.get(6));
 
 //        Order.showPrice(orders.get(1));
 
-        ArrayList<Order> onlineOreders = Order.initializeOnlineOrder(orders);
-        ArrayList<Order> stationaryOreders = Order.initializeStationaryOrder(orders);
-//        Order.showOrders(stationaryOreders);
+//        Zrobic klase abstrakcyjna ktora rozszerza dwie klasy
+        Order.showOrders(orders);
+        Order.showOrderIds(orders);
 
-        Menu.showMenu(menu);
+        NewKitchen kit = new NewKitchen(employees);
+        kit.showEmployee();
+        System.out.println(kit.checkNumberOfCookers());
+
+//        firstOrder.startMakingOrder(firstOrder);
+
+//        Menu.showMenu(menu);
+//        kitchen.
+//        kitchen.timer.scheduleAtFixedRate(kitchen.timerTask, 0, 1000);
     }
 
 

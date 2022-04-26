@@ -1,3 +1,5 @@
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dish {
@@ -8,6 +10,7 @@ public class Dish {
     private boolean isAvailable;
     private boolean isVegan;
     private boolean isSpicy;
+    private boolean isFinished;
 
     public Dish(String name, double price, boolean isPresent, boolean isVegan, boolean isSpicy) {
         this.name = name;
@@ -22,12 +25,21 @@ public class Dish {
     public String toString() {
         return "Dish{" +
                 "name='" + name + '\'' +
+                ", id=" + id +
                 ", price=" + price +
-                ", isPresent=" + isAvailable +
+                ", isAvailable=" + isAvailable +
                 ", isVegan=" + isVegan +
                 ", isSpicy=" + isSpicy +
-                ", id=" + id +
+                ", isFinished=" + isFinished +
                 '}';
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 
     public String getName() {
@@ -44,6 +56,17 @@ public class Dish {
 
     public boolean isAvailable() {
         return isAvailable;
+    }
+
+    private boolean checkIsAvailable() throws NotAvailableException {
+        boolean a = false;
+            if(isAvailable){
+                a = true;
+            }
+            else{
+                throw new NotAvailableException("This position currently is not Available :( ");
+            }
+            return a;
     }
 
     public void setAvailable(boolean available) {
@@ -68,6 +91,22 @@ public class Dish {
 
     public int getId() {
         return id;
+    }
+
+    public void startMakingDish() {
+        if(isFinished){
+            this.isFinished = true;
+        } else {
+            try {
+                Thread.sleep(3000 / (long)(Kitchen.getDecreasedPercentages() * 1000));
+                isFinished = true;
+                System.out.println("Skonczono robic danie " + getName());
+            } catch (InterruptedException e) {
+
+            }
+        }
+
+
     }
 
 
