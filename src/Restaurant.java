@@ -42,8 +42,8 @@ public class Restaurant {
         orders.add(thirOrder);
         thirOrder.add(menu.get(2));thirOrder.add(menu.get(6));
 
-        Order.showOrders(orders);
-        Order.showOrderIds(orders);
+//        Order.showOrders(orders);
+//        Order.showOrderIds(orders);
 
         Kitchen kit = new Kitchen(employees);
         kit.showEmployee();
