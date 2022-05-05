@@ -17,7 +17,7 @@ public class Menu extends ArrayList<Dish> {
         Dish smallWater = new Dish("Small Water", 4, true, true, false);
         Dish bigWater = new Dish("Big Water", 6, true, true, false);
         Dish redWine = new Dish("Red Wine", 15, true, true, false);
-        Dish whiteWine = new Dish("White Wine", 14, false, true, false);
+        Dish whiteWine = new Dish("White Wine", 14, true, true, false);
         Dish cola = new Dish("Cola", 5, true, true, false);
 
         menu.add(kfc);

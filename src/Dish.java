@@ -93,24 +93,28 @@ public class Dish {
         return id;
     }
 
-    public void startMakingDish() {
-        if(isFinished){
-            this.isFinished = true;
-        } else {
-            try {
-                Thread.sleep(3000);
-                isFinished = true;
-                System.out.println("Skonczono robic danie " + getName());
-            } catch (InterruptedException e) {
+    public void startMakingDish()  {
+//            if (isFinished ) {
+//                System.out.println("pa");
+//            } else {
 
-            }
+                try {
+
+                    Thread.sleep((long) (000));
+                    isFinished = true;
+                    System.out.println("* Dish is finished: " + getName() +" ✔");
+                } catch (InterruptedException e) {
+
+                }
+//            }
         }
-
-
+    public void skip(){
+        isFinished = true;
+    }
     }
 
 
 
-}
+
 
 

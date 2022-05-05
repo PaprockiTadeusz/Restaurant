@@ -14,8 +14,8 @@ public abstract class Order extends ArrayList<Dish> {
         this.isOnline = isOnline;
     }
 
-    public static double calculatePrice(ArrayList<Dish> dishesOnOrder){
-        return dishesOnOrder.stream()
+    public double calculatePrice(){
+        return this.stream()
                 .filter(Dish::isAvailable)
                 .mapToDouble(Dish::getPrice)
                 .sum();
@@ -25,20 +25,29 @@ public abstract class Order extends ArrayList<Dish> {
     public int getId() {
         return id;
     }
+
     public boolean isOnline() {
         return isOnline;
     }
+
     public static int incrementID(){
         int id = count.incrementAndGet();
         return id;
     }
-    public static void showPrice(ArrayList<Dish> dishesOnOrder){
-        System.out.println( calculatePrice(dishesOnOrder));
+
+    public void deleteById(){
+        Restaurant.currentOrders
+                .removeIf(x -> x.getId() == this.getId());
+    }
+
+    public void showPrice(ArrayList<Dish> dishesOnOrder){
+        System.out.println( calculatePrice());
     }
 
     public static void showOrders (ArrayList<Order> orders) {
         orders.forEach(System.out::println);
     }
+
     public static void showOrderIds (ArrayList<Order> orders) {
         orders.stream().map(Order::getId).forEach(System.out::println);
     }
@@ -47,8 +56,33 @@ public abstract class Order extends ArrayList<Dish> {
         return isRealised;
     }
 
-    public void startMakingOrder(Order order){
-        order.stream()
-                .forEach(Dish::startMakingDish);
+    public void startMakingOrder(){
+        System.out.println("# Started making an order: " + getId());
+        System.out.println(isOnline ? "# Online Order" : "# Stationary Order");
+            this.stream()
+                    .forEach(this::isAvailableIfNotThrowException);
+        System.out.println("$ Final Price is: " + this.calculatePrice() + "\n# Finished making an order: "+ getId() + "\n -------------------------------");
+        Restaurant.oldOrders.add(this);
+        deleteById();
+
+
     }
+
+    private void isAvailableIfNotThrowException(Dish x) {
+        if (x.isAvailable())
+        {
+            x.startMakingDish();
+
+//            System.out.println("czesc");
+    }
+        else{
+            x.skip();
+            try {
+                System.out.println("!!!Order with not available dish !!!");
+                throw new NotAvailableException("Dish: " + x.getName() + " is not available");
+            } catch (NotAvailableException e) {
+            }
+        }
+    }
+
 }

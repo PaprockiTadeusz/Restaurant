@@ -5,4 +5,6 @@ public class Cooker extends Employee {
     public Cooker(String name, String surname, int age, int telephoneNumber, LocalDate dateOfEmployment) {
         super(name, surname, age, telephoneNumber, dateOfEmployment);
     }
+
+
 }

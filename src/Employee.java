@@ -67,4 +67,7 @@ public class Employee {
                 ", dateOfEmployment=" + dateOfEmployment +
                 '}';
     }
+    public  boolean isCooker(){
+        return this.getClass().getName().equals("Cooker");
+    }
 }
