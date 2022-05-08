@@ -33,7 +33,13 @@ public class Dish {
                 ", isFinished=" + isFinished +
                 '}';
     }
+    public String toStringInMenu() {
+        return  (this.isAvailable() ? "☑ " : "✗ ") + this.getName() + " | Price: " + this.getPrice() + " | Vegan: " + (this.isVegan() ? "☑" : "✗" ) + " | Spicy: " + (this.isSpicy() ? "☑" : "✗" );
 
+    }
+    public String onlyVegan(){
+        return this.isVegan ? toStringInMenu() : "";
+    }
     public boolean isFinished() {
         return isFinished;
     }
@@ -94,19 +100,11 @@ public class Dish {
     }
 
     public void startMakingDish()  {
-//            if (isFinished ) {
-//                System.out.println("pa");
-//            } else {
-
-                try {
-
-                    Thread.sleep((long) (000));
-                    isFinished = true;
-                    System.out.println("* Dish is finished: " + getName() +" ✔");
-                } catch (InterruptedException e) {
-
-                }
-//            }
+            try {
+                Thread.sleep((long) (00));
+                isFinished = true;
+                System.out.println("* Dish is finished: " + getName() + " ✔");
+            } catch (InterruptedException e) {}
         }
     public void skip(){
         isFinished = true;

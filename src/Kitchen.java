@@ -5,7 +5,7 @@ public class Kitchen {
 
     Menu menu = Menu.initializeMenu();
 
-    private boolean isOpened = false;
+    private static boolean isOpened = false;
 
     ArrayList<Employee> employees = new ArrayList<Employee>();
 
@@ -40,6 +40,16 @@ public class Kitchen {
             default -> decreasedPercentages = 0;
 
         };
+    }
+
+    public static boolean isOpened() {
+        return isOpened;
+    }
+
+    public static double getDailyRevenue(ArrayList<Order> oldOrders){
+        Double sum = oldOrders.stream()
+                .mapToDouble(x -> x.calculatePrice()).sum();
+        return sum;
     }
 
 

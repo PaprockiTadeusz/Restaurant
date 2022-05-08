@@ -1,5 +1,7 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Employee {
     private String name;
@@ -7,6 +9,8 @@ public class Employee {
     private int age;
     private int telephoneNumber;
     private LocalDate dateOfEmployment;
+    private int id;
+    private static final AtomicInteger count = new AtomicInteger(0);
     private int tips;
 
     public Employee(String name, String surname, int age, int telephoneNumber, LocalDate dateOfEmployment) {
@@ -15,6 +19,18 @@ public class Employee {
         this.age = age;
         this.telephoneNumber = telephoneNumber;
         this.dateOfEmployment = dateOfEmployment;
+        id = incrementID();
+    }
+
+    public Employee() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -70,4 +86,24 @@ public class Employee {
     public  boolean isCooker(){
         return this.getClass().getName().equals("Cooker");
     }
+
+    static ArrayList<Employee> initializeEmployees(){
+        ArrayList<Employee> emp = new ArrayList<>();
+        Waiter maja = new Waiter("Maja", "Janas", 27, 333_222_111, LocalDate.parse("2016-12-06"));
+        Cooker bob = new Cooker("Bob", "Bobski", 20, 123_456_789, LocalDate.parse("2015-03-06"));
+        Cooker robert = new Cooker("Robert", "Maklowicz", 58, 123_456_782, LocalDate.parse("2014-03-06"));
+        Supplier bartlomiej = new Supplier("Bartlomiej", "Maros", 28, 999_000_111, LocalDate.parse("2019-03-06"));
+        emp.add(bob);
+        emp.add(robert);
+        emp.add(maja);
+        emp.add(bartlomiej);
+
+        return emp;
+    }
+
+    public static int incrementID(){
+        int id = count.incrementAndGet();
+        return id;
+    }
+
 }

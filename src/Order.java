@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
 public abstract class Order extends ArrayList<Dish> {
@@ -72,8 +73,6 @@ public abstract class Order extends ArrayList<Dish> {
         if (x.isAvailable())
         {
             x.startMakingDish();
-
-//            System.out.println("czesc");
     }
         else{
             x.skip();
@@ -83,6 +82,78 @@ public abstract class Order extends ArrayList<Dish> {
             } catch (NotAvailableException e) {
             }
         }
+    }
+
+
+    public static ArrayList<Order> initializeOrders(){
+        Menu menu = Menu.initializeMenu();
+        ArrayList<Order> orders = new ArrayList<>();
+
+        StationaryOrder firstOrder = new StationaryOrder(false);
+        orders.add(firstOrder);
+        firstOrder.add(menu.get(5));firstOrder.add(menu.get(8));
+
+        StationaryOrder secondOrder = new StationaryOrder(false);
+        orders.add(secondOrder);
+        secondOrder.add(menu.get(4));secondOrder.add(menu.get(6));
+
+        OnlineOrder thirdOrder = new OnlineOrder("Niemcewicza 14", true);
+        orders.add(thirdOrder);
+        thirdOrder.add(menu.get(2));thirdOrder.add(menu.get(6));
+
+        OnlineOrder fourthOrder = new OnlineOrder("Boleslawa Chrobrego 16", true);
+        orders.add(fourthOrder);
+        fourthOrder.add(menu.get(7));fourthOrder.add(menu.get(3));
+
+        StationaryOrder fifthOrder = new StationaryOrder(false);
+        orders.add(fifthOrder);
+        fifthOrder.add(menu.get(4));fifthOrder.add(menu.get(9));fifthOrder.add(menu.get(1));
+
+        StationaryOrder sixthOrder = new StationaryOrder(false);
+        orders.add(sixthOrder);
+        sixthOrder.add(menu.get(4));sixthOrder.add(menu.get(4));
+
+        StationaryOrder seventhOrder = new StationaryOrder(false);
+        orders.add(seventhOrder);
+        seventhOrder.add(menu.get(4));seventhOrder.add(menu.get(4));
+
+        StationaryOrder eightOrder = new StationaryOrder(false);
+        orders.add(eightOrder);
+        eightOrder.add(menu.get(4));eightOrder.add(menu.get(1));eightOrder.add(menu.get(7));eightOrder.add(menu.get(8));eightOrder.add(menu.get(9));
+
+        StationaryOrder ninethOrder = new StationaryOrder(false);
+        orders.add(ninethOrder);
+        ninethOrder.add(menu.get(4));ninethOrder.add(menu.get(4));
+
+        StationaryOrder tenthOrder = new StationaryOrder(false);
+        orders.add(tenthOrder);
+        tenthOrder.add(menu.get(6));tenthOrder.add(menu.get(3));tenthOrder.add(menu.get(4));tenthOrder.add(menu.get(4));
+
+        return orders;
+    }
+
+    static void startMakingOrders(ArrayList<Order> stationaryOrders, ArrayList<Order> onlineOrders){
+        if(Kitchen.isOpened()) {
+            System.out.println("STARTED MAKING ORDERS \n");
+            System.out.println(" --- ONLINE ORDERS --- ");
+            onlineOrders.forEach(Order::startMakingOrder);
+            System.out.println("\n\n --- STATIONARY ORDERS --- \n\n ");
+            stationaryOrders.forEach(Order::startMakingOrder);
+            System.out.println("FINISHED MAKING AN ORDERS");
+        } else {
+            System.out.println("Can't start making orders, Kitchen is closed");
+        }
+    }
+
+    static ArrayList<Order> getStationaryOrders(ArrayList<Order> orders) {
+        return (ArrayList<Order>) orders.stream()
+                .filter(Order::isOnline)
+                .collect(Collectors.toList());
+    }
+    static ArrayList<Order> getOnlineOrders(ArrayList<Order> orders) {
+        return (ArrayList<Order>) orders.stream()
+                .filter(x -> !x.isOnline())
+                .collect(Collectors.toList());
     }
 
 }

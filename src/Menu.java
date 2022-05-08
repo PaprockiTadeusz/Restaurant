@@ -36,8 +36,15 @@ public class Menu extends ArrayList<Dish> {
 
     }
 
+
     public static void showMenu(Menu menu){
-        menu.forEach(System.out::println);
+        menu.forEach(x -> System.out.println(x.toStringInMenu()));
+    }
+    public static void onlyVegan(Menu menu){
+        menu.stream().filter(x -> x.isVegan()).forEach(x -> System.out.println(x.toStringInMenu()));
+    }
+    public static void onlySpicy(Menu menu){
+        menu.stream().filter(x -> x.isSpicy()).forEach(x -> System.out.println(x.toStringInMenu()));
     }
 
 }
