@@ -6,11 +6,13 @@ public class OnlineOrder extends Order{
     private LocalDateTime dateOfOreder;
 
     private String adress;
+    private boolean isDelivered = false;
 
     public OnlineOrder(String adress, boolean isOnline) {
         super(isOnline);
         this.adress = adress;
     }
+
 
 
     public LocalDateTime getDateOfOreder() {
@@ -19,5 +21,13 @@ public class OnlineOrder extends Order{
 
     public String getAdress() {
         return adress;
+    }
+
+    public boolean isDelivered() {
+        return isDelivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        isDelivered = delivered;
     }
 }

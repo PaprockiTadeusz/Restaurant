@@ -22,8 +22,6 @@ public class Employee {
         id = incrementID();
     }
 
-    public Employee() {
-    }
 
     public int getId() {
         return id;

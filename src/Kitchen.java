@@ -48,7 +48,7 @@ public class Kitchen {
 
     public static double getDailyRevenue(ArrayList<Order> oldOrders){
         Double sum = oldOrders.stream()
-                .mapToDouble(x -> x.calculatePrice()).sum();
+                .mapToDouble(Order::calculatePrice).sum();
         return sum;
     }
 

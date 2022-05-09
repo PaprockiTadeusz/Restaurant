@@ -7,5 +7,4 @@ public class StationaryOrder extends Order {
         super(isOnline);
     }
 
-
 }

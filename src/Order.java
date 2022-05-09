@@ -9,6 +9,7 @@ public abstract class Order extends ArrayList<Dish> {
     private int id;
     private boolean isOnline;
     private boolean isRealised = false;
+    private int numberOFOnlineOrders = consoleClass.onlineOrders.size();
 
     public Order(boolean isOnline) {
         id = incrementID();
@@ -57,15 +58,32 @@ public abstract class Order extends ArrayList<Dish> {
         return isRealised;
     }
 
-    public void startMakingOrder(){
-        System.out.println("# Started making an order: " + getId());
-        System.out.println(isOnline ? "# Online Order" : "# Stationary Order");
+    public void startMakingOrder()  {
+        try {
+            System.out.println("# Started making an order: " + getId());
+
+            System.out.println(isOnline ? "# Online Order" : "# Stationary Order");
             this.stream()
                     .forEach(this::isAvailableIfNotThrowException);
-        System.out.println("$ Final Price is: " + this.calculatePrice() + "\n# Finished making an order: "+ getId() + "\n -------------------------------");
-        Restaurant.oldOrders.add(this);
-        deleteById();
+            if(isOnline()) {
+                startDelivery();
+            }
+            System.out.println("$ Final Price is: " + this.calculatePrice() + "\n# Finished making an order: " + getId() + "\n -------------------------------");
+            Restaurant.oldOrders.add(this);
 
+            deleteById();
+        }catch(Exception e){}
+
+
+    }
+
+    private void startDelivery() {
+            for (int i = 0; i < numberOFOnlineOrders; i++) {
+                Supplier.setIsAvailable(false);
+                SupplierThread spThr = new SupplierThread();
+                spThr.start();
+                Supplier.setIsAvailable(true);
+        }
 
     }
 
@@ -77,7 +95,7 @@ public abstract class Order extends ArrayList<Dish> {
         else{
             x.skip();
             try {
-                System.out.println("!!!Order with not available dish !!!");
+                System.err.println("!!!Order with not available dish !!!\n !!!Infrom client!!!");
                 throw new NotAvailableException("Dish: " + x.getName() + " is not available");
             } catch (NotAvailableException e) {
             }
@@ -132,11 +150,14 @@ public abstract class Order extends ArrayList<Dish> {
         return orders;
     }
 
-    static void startMakingOrders(ArrayList<Order> stationaryOrders, ArrayList<Order> onlineOrders){
+    static void startMakingOrders(ArrayList<Order> onlineOrders, ArrayList<Order> stationaryOrders){
         if(Kitchen.isOpened()) {
             System.out.println("STARTED MAKING ORDERS \n");
             System.out.println(" --- ONLINE ORDERS --- ");
-            onlineOrders.forEach(Order::startMakingOrder);
+            onlineOrders.forEach(x -> {
+                x.startMakingOrder();
+
+            });
             System.out.println("\n\n --- STATIONARY ORDERS --- \n\n ");
             stationaryOrders.forEach(Order::startMakingOrder);
             System.out.println("FINISHED MAKING AN ORDERS");

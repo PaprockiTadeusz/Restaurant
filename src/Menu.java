@@ -47,4 +47,5 @@ public class Menu extends ArrayList<Dish> {
         menu.stream().filter(x -> x.isSpicy()).forEach(x -> System.out.println(x.toStringInMenu()));
     }
 
+
 }

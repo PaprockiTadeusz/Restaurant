@@ -1,6 +1,10 @@
+import java.io.*;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class consoleClass {
 
@@ -28,12 +32,12 @@ public class consoleClass {
     public static void  mainMenu(){
         int option = 0;
         Scanner mainMenuScanner = new Scanner(System.in);
-        System.out.println("What you want to do? \n" +
+        System.out.println("\nWhat you want to do? \n" +
                 "\nKitchen and Menu Options \n###################################### \n" +
                 "1. Open Kitchen \n" +
                 "2. Stop Kitchen  \n" +
                 "3. Start Making Orders  \n" +
-                "4. Stop Making Orders \n" +
+                "4. Show daily income \n" +
                 "5. Show Current Orders  \n" +
                 "6. Show Old Orders  \n" +
                 "7. Show All Employees  \n" +
@@ -48,26 +52,28 @@ public class consoleClass {
                 "14. Show Menu for Vegans \n" +
                 "15. Show Spicy Meals \n" +
                 "16. Make Online Order \n" +
-                "17. Make Stationary Order \n"
-
-        );
+                "17. Make Stationary Order \n" +
+                "18. Read Menu from a file \n" +
+                "19. Save Menu to a file \n");
         int chosenOption = mainMenuScanner.nextInt();
         mainMenuSwitch(chosenOption);
+        mainMenu();
 
     }
 
-    public static void mainMenuSwitch(int chosenOption){
-        switch(chosenOption){
+    private static void mainMenuSwitch(int chosenOption){
+        try{
+        switch(chosenOption) {
             case 1 -> kitchen.startKitchen();
             case 2 -> kitchen.stopKitchen();
-            case 3 -> Order.startMakingOrders(stationaryOrders, onlineOrders);
-//            case 4 -> Order.stop // !!!
-            case 5 -> { mainMenu();Order.showOrders(currentOrders);}
-            case 6 -> { mainMenu();Order.showOrders(oldOrders);}
-            case 7 -> { mainMenu();employees.forEach(System.out::println);}
-//            case 8 ->  // !!!
-//            case 9 -> addEmployee();
-//            case 10 -> Menu.remove()
+            case 3 -> deliverOrders();
+            case 4 -> System.out.println("Today we have earned: " + Kitchen.getDailyRevenue(oldOrders));
+            case 5 -> Order.showOrders(currentOrders);
+            case 6 -> Order.showOrders(oldOrders);
+            case 7 -> employees.forEach(System.out::println);
+            case 8 -> getEmployeeById();
+            case 9 -> addToMenu();
+            case 10 -> removeFromMenu();
             case 11 -> addEmployee();
             case 12 -> fireEmployee();
             case 13 -> Menu.showMenu(menu);
@@ -75,10 +81,17 @@ public class consoleClass {
             case 15 -> Menu.onlySpicy(menu);
             case 16 -> makeOnlineOrder();
             case 17 -> makeStationaryOrder();
+            case 18 -> readFromAFile();
+            case 19 -> saveToAFile();
         }
-    }
+        }catch(Exception e){
+            System.err.println("SOMETHING WENT WRONG, TRY AGAIN");
+            mainMenu();
+            }
+        }
 
-    public static void addEmployee(){
+
+    private static void addEmployee(){
 
         Employee emp = null;
         String empName = "";
@@ -106,47 +119,33 @@ public class consoleClass {
         int choosenOption = addingEmployeeScanner.nextInt();
         switch(choosenOption){
             case 1 -> emp = new Cooker(empName, empSurname, age, telephoneNumber, LocalDate.now());
-            case 2 -> {emp = new Waiter(empName, empSurname, age, telephoneNumber, LocalDate.now());}
+            case 2 -> emp = new Waiter(empName, empSurname, age, telephoneNumber, LocalDate.now());
             case 3 -> emp = new Supplier(empName, empSurname, age, telephoneNumber, LocalDate.now());
             default -> { System.out.println("Bad type. You have to add Employee again"); addEmployee();}
         }
         System.out.println("!Added a new Employee! \n");
         employees.add(emp);
 
-        mainMenu();
+//        mainMenu();
 
     }
 
-    public static void fireEmployee(){
+    private static void fireEmployee(){
         Scanner empId = new Scanner(System.in);
 
         employees.stream().forEach(System.out::println);
         System.out.println("Which employee you want to fire?");
 
-        int id = empId.nextInt();
+        int id = empId.nextInt() - 1;
         if(employees.size() == 0){
             System.out.println("Currently we don't hire any Employees");
         }else {
             employees.remove(id);
         }
 
-        mainMenu();
-
     }
 
-    public static void makeNewOrder(){
-
-        Scanner orderType = new Scanner(System.in);
-
-        System.out.println("Which type of Order do you want?");
-        int orderTypeNumber = orderType.nextInt();
-//        switch (orderTypeNumber){
-//            case 1 -> ;
-//        }
-
-    }
-
-  public static void makeOnlineOrder(){
+  private static void makeOnlineOrder(){
       Scanner adressScanner = new Scanner(System.in);
       Scanner numberScanner = new Scanner(System.in);
 
@@ -154,38 +153,124 @@ public class consoleClass {
       String adress = adressScanner.nextLine();
       OnlineOrder order = new OnlineOrder(adress, true);
       makeingOrder(numberScanner, order);
+      orders.add(order);
+      currentOrders.add(order);
       System.out.println("Added new Online Order");
 
-      mainMenu();
 
   }
-    public static void makeStationaryOrder() {
+    private static void makeStationaryOrder() {
       StationaryOrder order = new StationaryOrder(false);
         Scanner numberScanner = new Scanner(System.in);
         makeingOrder(numberScanner, order);
+        orders.add(order);
+        currentOrders.add(order);
         System.out.println("Added new Stationary Order");
 
-        mainMenu();
   }
     private static void makeingOrder(Scanner numberScanner, Order order) {
         menu.stream().forEach(System.out::println);
         System.out.println("\n# Type dish number you want to add \n# If you want to stop type 0");
-        int number = -1;
-         while (number != 0){
-             number = numberScanner.nextInt();
-             order.add(menu.get(number));
-         }
-        orders.add(order);
+        int number ;
+        do {
+            number = numberScanner.nextInt();
+            if(number != 0){
+                order.add(menu.get(number - 1));
+            }
+        }
+         while (number != 0);
+
     }
 
     private static void getEmployeeById(){
+        System.out.println("Enter employee number. Currently we hire " + employees.size() + " employees");
         Scanner numberScanner = new Scanner(System.in);
-        int number = numberScanner.nextInt();
-        mainMenu();
-        employees.stream().filter(x -> x.getId() == number).forEach(System.out::println);
-
+        int number = numberScanner.nextInt() - 1;
+        employees.stream()
+                .filter(x -> x.getId() == number)
+                .forEach(System.out::println);
         mainMenu();
 
     }
 
-}
+
+    private static void addToMenu(){
+        Scanner nameScanner = new Scanner(System.in);
+        Scanner priceScanner = new Scanner(System.in);
+        Scanner isAvailableScanner = new Scanner(System.in);
+        Scanner isVeganScanner = new Scanner(System.in);
+        Scanner isSpicyScanner = new Scanner(System.in);
+
+        System.out.println("Write dish name: ");
+        String name = nameScanner.nextLine();
+        System.out.println("Write dish price");
+        double price = priceScanner.nextInt();
+        System.out.println("Is available? \nYes - true No - false");
+        boolean isAvailable = isAvailableScanner.nextBoolean();
+        System.out.println("Is vegan? \nYes - true No - false");
+        boolean isVegan = isVeganScanner.nextBoolean();
+        System.out.println("Is spicy? \nYes - true No - false");
+        boolean isSpicy = isSpicyScanner.nextBoolean();
+        Dish newDish = new Dish(name, price, isAvailable, isVegan, isSpicy);
+        menu.add(newDish);
+        System.out.println("Added " + name + " to menu");
+    }
+
+    private static void removeFromMenu(){
+        Scanner numberScanner = new Scanner(System.in);
+        Menu.showMenu(menu);
+        System.out.println("Which dish you want to delete?");
+        int num = numberScanner.nextInt();
+        menu.remove(num - 1);
+
+    }
+    private static void deliverOrders(){
+        Order.startMakingOrders(stationaryOrders, onlineOrders);
+
+    }
+
+    private static void readFromAFile() throws IOException {
+        Path path = Path.of("D:\\Spring\\Restaurantt\\src\\menu.txt");
+
+        BufferedReader br = new BufferedReader(new FileReader(String.valueOf(path)));
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String text= sb.toString();
+        } catch(Exception e){
+
+        }
+    }
+    private static void saveToAFile() throws IOException {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("savedMenu.txt"));
+            StringBuilder builder = new StringBuilder();
+            menu.forEach(x -> builder.append(x.toString()));
+            writer.write(String.valueOf(builder));
+            writer.write("hello");
+            writer.close();
+        }catch(Exception e){
+
+        }
+    }
+
+    public static ArrayList<Order> getOldOrders() {
+        return oldOrders;
+    }
+    public static ArrayList<Order> getCurrentOrders() {
+        return currentOrders;
+    }
+
+    public static ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+
+    }
+

@@ -101,7 +101,9 @@ public class Dish {
 
     public void startMakingDish()  {
             try {
-                Thread.sleep((long) (00));
+                Thread dishThread = new Thread();
+                dishThread.start();
+                dishThread.sleep((long) (1000));
                 isFinished = true;
                 System.out.println("* Dish is finished: " + getName() + " ✔");
             } catch (InterruptedException e) {}
