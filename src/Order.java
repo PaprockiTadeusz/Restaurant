@@ -58,32 +58,23 @@ public abstract class Order extends ArrayList<Dish> {
         return isRealised;
     }
 
-    public void startMakingOrder()  {
+    public void startMakingOrder(ArrayList<Employee> suppliers)  {
         try {
             System.out.println("# Started making an order: " + getId());
 
             System.out.println(isOnline ? "# Online Order" : "# Stationary Order");
             this.stream()
-                    .forEach(this::isAvailableIfNotThrowException);
-            if(isOnline()) {
-                startDelivery();
-            }
+                    .forEach(x ->{
+                        isAvailableIfNotThrowException(x);
+
+
+                    });
             System.out.println("$ Final Price is: " + this.calculatePrice() + "\n# Finished making an order: " + getId() + "\n -------------------------------");
             Restaurant.oldOrders.add(this);
 
             deleteById();
         }catch(Exception e){}
 
-
-    }
-
-    private void startDelivery() {
-            for (int i = 0; i < numberOFOnlineOrders; i++) {
-                Supplier.setIsAvailable(false);
-                SupplierThread spThr = new SupplierThread();
-                spThr.start();
-                Supplier.setIsAvailable(true);
-        }
 
     }
 
@@ -150,16 +141,19 @@ public abstract class Order extends ArrayList<Dish> {
         return orders;
     }
 
-    static void startMakingOrders(ArrayList<Order> onlineOrders, ArrayList<Order> stationaryOrders){
+    static void startMakingOrders(ArrayList<Order> onlineOrders, ArrayList<Order> stationaryOrders, ArrayList<Employee> suppliers){
         if(Kitchen.isOpened()) {
             System.out.println("STARTED MAKING ORDERS \n");
             System.out.println(" --- ONLINE ORDERS --- ");
             onlineOrders.forEach(x -> {
-                x.startMakingOrder();
-
+                x.startMakingOrder(suppliers);
+                suppliers.stream().filter(x -> x.isIsAvailable());
             });
             System.out.println("\n\n --- STATIONARY ORDERS --- \n\n ");
-            stationaryOrders.forEach(Order::startMakingOrder);
+            stationaryOrders.forEach(x -> {
+                x.startMakingOrder(suppliers);
+
+            });
             System.out.println("FINISHED MAKING AN ORDERS");
         } else {
             System.out.println("Can't start making orders, Kitchen is closed");

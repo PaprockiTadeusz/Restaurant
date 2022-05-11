@@ -15,7 +15,8 @@ public class Supplier extends Employee {
     }
 
     public static void Supply(Order dishes) throws InterruptedException {
-
+        SupplierThread sp = new SupplierThread();
+        sp.start();
 
 
     }

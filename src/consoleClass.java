@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class consoleClass {
 
@@ -18,6 +19,10 @@ public class consoleClass {
 
     static Menu menu = Menu.initializeMenu();
 
+    static ArrayList<Employee> cookers = new ArrayList<>();
+    static ArrayList<Employee> suppliers = new ArrayList<>();
+    static ArrayList<Employee> waiters = new ArrayList<>();
+
 
     public consoleClass(ArrayList<Order> oldOrders, ArrayList<Order> currentOrders, ArrayList<Order> orders, ArrayList<Order> onlineOrders, ArrayList<Order> stationaryOrders, ArrayList<Employee> employees) {
         this.oldOrders = oldOrders;
@@ -26,6 +31,9 @@ public class consoleClass {
         this.onlineOrders = onlineOrders;
         this.stationaryOrders = stationaryOrders;
         this.employees = employees;
+        cookers = (ArrayList<Employee>) employees.stream().filter(x -> x instanceof Cooker).collect(Collectors.toList());
+        suppliers = (ArrayList<Employee>) employees.stream().filter(x -> x instanceof Supplier).collect(Collectors.toList());
+        waiters = (ArrayList<Employee>) employees.stream().filter(x -> x instanceof Waiter).collect(Collectors.toList());
     }
     private static Kitchen kitchen = new Kitchen(employees);
 
@@ -55,6 +63,7 @@ public class consoleClass {
                 "17. Make Stationary Order \n" +
                 "18. Read Menu from a file \n" +
                 "19. Save Menu to a file \n");
+
         int chosenOption = mainMenuScanner.nextInt();
         mainMenuSwitch(chosenOption);
         mainMenu();
@@ -225,7 +234,7 @@ public class consoleClass {
 
     }
     private static void deliverOrders(){
-        Order.startMakingOrders(stationaryOrders, onlineOrders);
+        Order.startMakingOrders(stationaryOrders, onlineOrders, suppliers);
 
     }
 
