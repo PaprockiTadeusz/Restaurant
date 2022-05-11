@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Waiter extends Employee {
     private static boolean isWaiter;
@@ -10,5 +11,12 @@ public class Waiter extends Employee {
     }
     public static void makeAnOrder(){
         numberOfRealisedOrders++;
+    }
+
+    public static ArrayList<Waiter> initializeWaiters() {
+        ArrayList<Waiter> waiters = new ArrayList<Waiter>();
+        Waiter maja = new Waiter("Maja", "Janas", 27, 333_222_111, LocalDate.parse("2016-12-06"));
+        waiters.add(maja);
+        return waiters;
     }
 }

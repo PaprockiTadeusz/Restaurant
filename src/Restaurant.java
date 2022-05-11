@@ -11,7 +11,13 @@ public class Restaurant {
     public static void main(String[] args) {
 
         Menu menu = Menu.initializeMenu();
-        ArrayList<Employee> employees = Employee.initializeEmployees();
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        ArrayList<Cooker> cookers = Cooker.initializeCookers();
+        ArrayList<Supplier> suppliers = Supplier.initializeSuppliers();
+        ArrayList<Waiter> waiters = Waiter.initializeWaiters();
+        employees.addAll(cookers);
+        employees.addAll(suppliers);
+        employees.addAll(waiters);
 
 
         ArrayList<Order> onlineOrders = new ArrayList<>();
@@ -25,7 +31,7 @@ public class Restaurant {
 
 
         currentOrders.addAll(orders);
-        consoleClass console = new consoleClass(oldOrders,currentOrders,orders,onlineOrders,stationaryOrders,employees);
+        consoleClass console = new consoleClass(oldOrders,currentOrders,orders,onlineOrders,stationaryOrders,employees,cookers, waiters, suppliers);
         console.mainMenu();
         currentOrders = console.getCurrentOrders();
         oldOrders = console.getOldOrders();

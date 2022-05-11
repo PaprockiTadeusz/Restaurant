@@ -7,7 +7,7 @@ public class Kitchen {
 
     private static boolean isOpened = false;
 
-    ArrayList<Employee> employees = new ArrayList<Employee>();
+     ArrayList<Employee> employees = Employee.initializeEmployees();
 
     public Kitchen(ArrayList<Employee> emp){
         this.employees = emp;
@@ -27,7 +27,7 @@ public class Kitchen {
 
     public static ArrayList<Employee> makeCookersArray(ArrayList<Employee> employees) {
         return (ArrayList<Employee>) employees.stream()
-                .filter(Employee::isCooker)
+                .filter(x ->x.isCooker())
                 .collect(Collectors.toList());
     }
 

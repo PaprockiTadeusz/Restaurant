@@ -1,10 +1,10 @@
 public class SupplierThread extends Thread {
-    @Override
-    public void run(){
+
+    public void run(long time){
 
         System.out.println("✈ Supplier during deliver");
         try{
-            sleep(5000);
+            sleep(time);
         } catch (InterruptedException e) {
         }
         System.out.println("✈ Supplier in restaurant");

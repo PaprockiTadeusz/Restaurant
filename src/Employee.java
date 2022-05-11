@@ -12,6 +12,7 @@ public class Employee {
     private int id;
     private static final AtomicInteger count = new AtomicInteger(0);
     private int tips;
+    private double deliveryTime;
 
     public Employee(String name, String surname, int age, int telephoneNumber, LocalDate dateOfEmployment) {
         this.name = name;
@@ -83,6 +84,13 @@ public class Employee {
     }
     public  boolean isCooker(){
         return this.getClass().getName().equals("Cooker");
+    }
+
+    public int giveTip(){
+        deliveryTime =(Math.random() * 5);
+        if(deliveryTime < 1){
+            tips +=
+        }
     }
 
     static ArrayList<Employee> initializeEmployees(){
