@@ -1,0 +1,11 @@
+Dish{name='Korean Fried Chickien', id=12, price=29.0, isAvailable=true, isVegan=false, isSpicy=true, isFinished=false},
+Dish{name='Mild Fried Chicken', id=13, price=29.0, isAvailable=true, isVegan=false, isSpicy=false, isFinished=false},
+Dish{name='Spicy Pork', id=14, price=29.0, isAvailable=false, isVegan=false, isSpicy=true, isFinished=false},
+Dish{name='Teriyaki Duck', id=15, price=35.0, isAvailable=true, isVegan=false, isSpicy=false, isFinished=false},
+Dish{name='Korean Tofu', id=16, price=29.0, isAvailable=true, isVegan=true, isSpicy=false, isFinished=false},
+Dish{name='Braised Beef', id=17, price=33.0, isAvailable=true, isVegan=false, isSpicy=false, isFinished=false},
+Dish{name='Small Water', id=18, price=4.0, isAvailable=true, isVegan=true, isSpicy=false, isFinished=false},
+Dish{name='Big Water', id=19, price=6.0, isAvailable=true, isVegan=true, isSpicy=false, isFinished=false},
+Dish{name='Red Wine', id=20, price=15.0, isAvailable=true, isVegan=true, isSpicy=false, isFinished=false},
+Dish{name='White Wine', id=21, price=14.0, isAvailable=true, isVegan=true, isSpicy=false, isFinished=false},
+Dish{name='Cola', id=22, price=5.0, isAvailable=true, isVegan=true, isSpicy=false, isFinished=false}
