@@ -1,6 +1,6 @@
 public class SupplierThread extends Thread {
 
-    public void run(long time){
+    public void start(long time){
 
         System.out.println("✈ Supplier during deliver");
         try{

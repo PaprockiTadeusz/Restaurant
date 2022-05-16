@@ -9,8 +9,7 @@ public abstract class Order extends ArrayList<Dish> {
     private int id;
     private boolean isOnline;
     private boolean isRealised = false;
-    private int numberOFOnlineOrders = consoleClass.onlineOrders.size();
-
+    private int numberOFOnlineOrders = 1;
     public Order(boolean isOnline) {
         id = incrementID();
         this.isOnline = isOnline;
@@ -42,20 +41,12 @@ public abstract class Order extends ArrayList<Dish> {
                 .removeIf(x -> x.getId() == this.getId());
     }
 
-    public void showPrice(ArrayList<Dish> dishesOnOrder){
-        System.out.println( calculatePrice());
-    }
-
     public static void showOrders (ArrayList<Order> orders) {
         orders.forEach(System.out::println);
     }
 
     public static void showOrderIds (ArrayList<Order> orders) {
         orders.stream().map(Order::getId).forEach(System.out::println);
-    }
-
-    public boolean isRealised() {
-        return isRealised;
     }
 
     public void startMakingOrder()  {
@@ -150,33 +141,41 @@ public abstract class Order extends ArrayList<Dish> {
         return orders;
     }
 
-    static void startMakingOrders(ArrayList<Order> onlineOrders, ArrayList<Order> stationaryOrders){
+    static void startMakingOrders(ArrayList<Order> onlineOrders, ArrayList<Order> stationaryOrders, ArrayList<Waiter> waiters){
         if(Kitchen.isOpened()) {
             System.out.println("STARTED MAKING ORDERS \n");
             System.out.println(" --- ONLINE ORDERS --- ");
             onlineOrders.forEach(x ->{
                 x.startMakingOrder();
                 try {
-                    Supplier.Supply(consoleClass.suppliers, x );
+                    Supplier.Supply(consoleClass.getSuppliers(), x );
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             });
 
             System.out.println("\n\n --- STATIONARY ORDERS --- \n\n ");
-            stationaryOrders.forEach(Order::startMakingOrder);
+            stationaryOrders.forEach(x ->{
+                x.startMakingOrder();
+                Waiter waiter = waiters.get((int)(Math.random() * waiters.size()));
+                int index = waiters.indexOf(waiter);
+                waiter.setNumberOfRealisedOrders(waiter.getNumberOfRealisedOrders()+1);
+                waiter.giveTip();
+                waiters.set(index, waiter);
+            });
             System.out.println("FINISHED MAKING AN ORDERS");
         } else {
             System.out.println("Can't start making orders, Kitchen is closed");
         }
+        waiters.forEach(x -> System.out.println(x.getTips()));
     }
 
-    static ArrayList<Order> getStationaryOrders(ArrayList<Order> orders) {
+    public static ArrayList<Order> getStationaryOrders(ArrayList<Order> orders) {
         return (ArrayList<Order>) orders.stream()
                 .filter(Order::isOnline)
                 .collect(Collectors.toList());
     }
-    static ArrayList<Order> getOnlineOrders(ArrayList<Order> orders) {
+    public static ArrayList<Order> getOnlineOrders(ArrayList<Order> orders) {
         return (ArrayList<Order>) orders.stream()
                 .filter(x -> !x.isOnline())
                 .collect(Collectors.toList());

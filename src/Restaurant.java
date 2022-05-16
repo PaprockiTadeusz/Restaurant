@@ -24,7 +24,7 @@ public class Restaurant {
         ArrayList<Order> stationaryOrders = new ArrayList<>();
 
 
-        Kitchen kitchen = new Kitchen(employees);
+        Kitchen kitchen = new Kitchen(cookers);
 
         onlineOrders = Order.getOnlineOrders(orders);
         stationaryOrders = Order.getStationaryOrders(orders);
@@ -36,12 +36,6 @@ public class Restaurant {
         currentOrders = console.getCurrentOrders();
         oldOrders = console.getOldOrders();
         orders = console.getOrders();
-    }
-
-    private void addTo(Order order) {
-        orders.add(order);
-        currentOrders.add(order);
-
     }
 
 

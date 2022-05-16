@@ -20,13 +20,13 @@ public class Supplier extends Employee {
     public static void Supply(ArrayList<Supplier> suppliers, Order order) throws InterruptedException {
         long time = 0;
         switch(suppliers.size()) {
-           case 1 -> time =5000;
+           case 1 -> time =1000;
            case 2 -> time =2500;
            case 3 -> time =1667;
 //           default ->
         }
         SupplierThread sp = new SupplierThread();
-            sp.run(time);
+            sp.start(time);
         }
 
 

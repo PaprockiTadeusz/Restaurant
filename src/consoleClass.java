@@ -1,27 +1,23 @@
 import java.io.*;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class consoleClass {
 
-    static ArrayList<Order> oldOrders = new ArrayList<>();
-    static ArrayList<Order> currentOrders = new ArrayList<>();
-    static ArrayList<Order> orders = new ArrayList<>();
-    static ArrayList<Order> onlineOrders = new ArrayList<>();
+    private static ArrayList<Order> oldOrders = new ArrayList<>();
+    private static ArrayList<Order> currentOrders = new ArrayList<>();
+    private static ArrayList<Order> orders = new ArrayList<>();
+    private static ArrayList<Order> onlineOrders = new ArrayList<>();
     private static ArrayList<Order> stationaryOrders = new ArrayList<>();
 
     private static ArrayList<Employee> employees = new ArrayList<>();
 
-    static Menu menu = Menu.initializeMenu();
+    private static Menu menu = Menu.initializeMenu();
 
-    static ArrayList<Cooker> cookers = new ArrayList<>();
-    static ArrayList<Supplier> suppliers = new ArrayList<>();
-    static ArrayList<Waiter> waiters = new ArrayList<>();
+    private static ArrayList<Cooker> cookers = new ArrayList<>();
+    private static ArrayList<Supplier> suppliers = new ArrayList<>();
+    private static ArrayList<Waiter> waiters = new ArrayList<>();
 
 
     public consoleClass(ArrayList<Order> oldOrders, ArrayList<Order> currentOrders, ArrayList<Order> orders, ArrayList<Order> onlineOrders, ArrayList<Order> stationaryOrders, ArrayList<Employee> employees, ArrayList<Cooker> cookers, ArrayList<Waiter> waiters, ArrayList<Supplier> suppliers) {
@@ -37,7 +33,7 @@ public class consoleClass {
     }
 
 
-    private static Kitchen kitchen = new Kitchen(employees);
+    private static Kitchen kitchen = new Kitchen(cookers);
 
     public static void  mainMenu(){
         int option = 0;
@@ -52,19 +48,21 @@ public class consoleClass {
                 "6. Show Old Orders  \n" +
                 "7. Show All Employees  \n" +
                 "8. Show One Employees  \n" +
+                "9. Get Tips  \n" +
+                "10. Show realised orders  \n" +
                 "\nAdding / Deleting Options \n###################################### \n" +
-                "9. Add new dish to Menu \n" +
-                "10. Delete dish from menu \n" +
-                "11. Employ new Employee \n" +
-                "12. Fire Employee \n" +
+                "11. Add new dish to Menu \n" +
+                "12. Delete dish from menu \n" +
+                "13. Employ new Employee \n" +
+                "14. Fire Employee \n" +
                 "\nClient Options \n###################################### \n" +
-                "13. Show Menu \n" +
-                "14. Show Menu for Vegans \n" +
-                "15. Show Spicy Meals \n" +
-                "16. Make Online Order \n" +
-                "17. Make Stationary Order \n" +
-                "18. Read Menu from a file \n" +
-                "19. Save Menu to a file \n");
+                "15. Show Menu \n" +
+                "16. Show Menu for Vegans \n" +
+                "17. Show Spicy Meals \n" +
+                "18. Make Online Order \n" +
+                "19. Make Stationary Order \n" +
+                "20. Read Menu from a file \n" +
+                "21. Save Menu to a file \n");
 
         int chosenOption = mainMenuScanner.nextInt();
         mainMenuSwitch(chosenOption);
@@ -83,17 +81,19 @@ public class consoleClass {
             case 6 -> Order.showOrders(oldOrders);
             case 7 -> employees.forEach(System.out::println);
             case 8 -> getEmployeeById();
-            case 9 -> addToMenu();
-            case 10 -> removeFromMenu();
-            case 11 -> addEmployee();
-            case 12 -> fireEmployee();
-            case 13 -> Menu.showMenu(menu);
-            case 14 -> Menu.onlyVegan(menu);
-            case 15 -> Menu.onlySpicy(menu);
-            case 16 -> makeOnlineOrder();
-            case 17 -> makeStationaryOrder();
-            case 18 -> readFromAFile();
-            case 19 -> saveToAFile();
+            case 9 -> waiters.stream().forEach(x -> System.out.println(x.getName() + ": " + x.getTips()));
+            case 10 -> waiters.stream().forEach(x -> System.out.println(x.getName() + ": " + x.getNumberOfRealisedOrders()));
+            case 11 -> addToMenu();
+            case 12 -> removeFromMenu();
+            case 13 -> addEmployee();
+            case 14 -> fireEmployee();
+            case 15 -> Menu.showMenu(menu);
+            case 16 -> Menu.onlyVegan(menu);
+            case 17 -> Menu.onlySpicy(menu);
+            case 18 -> makeOnlineOrder();
+            case 19 -> makeStationaryOrder();
+            case 20 -> readFromAFile();
+            case 21 -> saveToAFile();
         }
         }catch(Exception e){
             System.err.println("SOMETHING WENT WRONG, TRY AGAIN");
@@ -104,7 +104,9 @@ public class consoleClass {
 
     private static void addEmployee(){
 
-        Employee emp = null;
+        Cooker cooker = null;
+        Waiter waiter = null;
+        Supplier supplier = null;
         String empName = "";
         String empSurname = "";
         int age = 0;
@@ -129,15 +131,13 @@ public class consoleClass {
         System.out.println("Which type of employee you want to employ? \n1.Cooker\n2.Waiter\n3.Supplier");
         int choosenOption = addingEmployeeScanner.nextInt();
         switch(choosenOption){
-            case 1 -> emp = new Cooker(empName, empSurname, age, telephoneNumber, LocalDate.now());
-            case 2 -> emp = new Waiter(empName, empSurname, age, telephoneNumber, LocalDate.now());
-            case 3 -> emp = new Supplier(empName, empSurname, age, telephoneNumber, LocalDate.now());
-            default -> { System.out.println("Bad type. You have to add Employee again"); addEmployee();}
+            case 1 : cooker =  new Cooker(empName, empSurname, age, telephoneNumber, LocalDate.now()); cookers.add(cooker);employees.add(cooker); break;
+            case 2 : waiter = new Waiter(empName, empSurname, age, telephoneNumber, LocalDate.now()); waiters.add(waiter);employees.add(waiter); break;
+            case 3 : supplier = new Supplier(empName, empSurname, age, telephoneNumber, LocalDate.now()); suppliers.add(supplier); employees.add(supplier);break;
+            default :  System.out.println("Bad type. You have to add Employee again"); addEmployee();
         }
         System.out.println("!Added a new Employee! \n");
-        employees.add(emp);
 
-//        mainMenu();
 
     }
 
@@ -236,37 +236,80 @@ public class consoleClass {
 
     }
     private static void deliverOrders(){
-//        ArrayList<Employee> = getSuppliers();
-        Order.startMakingOrders(stationaryOrders, onlineOrders);
+        Order.startMakingOrders(stationaryOrders, onlineOrders, waiters);
 
     }
-
     private static void readFromAFile() throws IOException {
-        Path path = Path.of("D:\\Spring\\Restaurantt\\src\\menu.txt");
+        BufferedReader br = new BufferedReader(new FileReader("D:\\Spring\\FileReader\\src\\menu.txt"));
+        StringBuilder sb = new StringBuilder();
+        int ch;
+        int number = 0;
 
-        BufferedReader br = new BufferedReader(new FileReader(String.valueOf(path)));
+
+        String name = "";
+        double price = 0;
+        boolean isPresent = false;
+        boolean isVegan = false;
+        boolean isSpicy = false;
+
+        Menu newMenu = new Menu();
         try {
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
 
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
+            while ((ch = br.read()) >= 0) {
+
+                if (ch == ',' && number == 0) {
+                    name = sb.toString();
+                    sb.setLength(0);
+                    number++;
+                } else if (ch == ',' && number == 1) {
+                    price = Double.parseDouble(sb.toString());
+                    sb.setLength(0);
+                    number++;
+                } else if (ch == ',' && number == 2) {
+                    isPresent = Boolean.parseBoolean(sb.toString());
+                    sb.setLength(0);
+                    number++;
+                } else if (ch == ',' && number == 3) {
+                    isVegan = Boolean.parseBoolean(sb.toString());
+                    sb.setLength(0);
+                    number++;
+                } else if (ch == ';' && number == 4) {
+                    isSpicy = Boolean.parseBoolean(sb.toString());
+                    sb.setLength(0);
+
+                    Dish dish = new Dish(name, price, isPresent, isVegan, isSpicy);
+                    newMenu.add(dish);
+
+                    number=0;
+                }
+                else {
+                    sb.append((char) ch);
+                }
             }
-            String text= sb.toString();
-        } catch(Exception e){
+            menu = newMenu;
 
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
     private static void saveToAFile() throws IOException {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("savedMenu.txt"));
             StringBuilder builder = new StringBuilder();
-            menu.forEach(x -> builder.append(x.toString()));
-            writer.write(String.valueOf(builder));
-            writer.write("hello");
+
+            for(Dish d : menu ) {
+                writer.write(d.getName() + ",");
+                writer.write(d.getPrice() + ",");
+                writer.write(d.isAvailable() + ",");
+                writer.write(d.isSpicy() + ",");
+                writer.write(d.isVegan() + ";\n");
+            }
             writer.close();
+
+//            menu.forEach(x -> builder.append(x.toString()));
+//            writer.write(String.valueOf(builder));
+//            writer.write("hello");
+//            writer.close();
         }catch(Exception e){
 
         }
@@ -283,6 +326,8 @@ public class consoleClass {
         return orders;
     }
 
-
+    public static ArrayList<Supplier> getSuppliers() {
+        return suppliers;
     }
+}
 

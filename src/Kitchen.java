@@ -7,14 +7,17 @@ public class Kitchen {
 
     private static boolean isOpened = false;
 
-     ArrayList<Employee> employees = Employee.initializeEmployees();
+    private ArrayList<Cooker> cookers = new ArrayList<>();
 
-    public Kitchen(ArrayList<Employee> emp){
-        this.employees = emp;
+    public Kitchen(ArrayList<Cooker> cookerss){
+        cookers.addAll(cookerss);
     }
 
-    public double decreasedPercentages = checkNumberOfCookers();
-    private ArrayList<Employee> cookers = makeCookersArray(employees);
+    private double decreasedPercentages = checkNumberOfCookers();
+
+    public double getDecreasedPercentages() {
+        return decreasedPercentages;
+    }
 
     public void startKitchen(){
         isOpened = true;
@@ -24,19 +27,12 @@ public class Kitchen {
         isOpened = false;
         System.out.println("Kitchen is closed");
     }
-
-    public static ArrayList<Employee> makeCookersArray(ArrayList<Employee> employees) {
-        return (ArrayList<Employee>) employees.stream()
-                .filter(x ->x.isCooker())
-                .collect(Collectors.toList());
-    }
-
     public double checkNumberOfCookers(){
-        return switch (makeCookersArray(employees).size()){
-            case 1 -> decreasedPercentages = 1;
-            case 2 -> decreasedPercentages = 1.9;
-            case 3 -> decreasedPercentages = 2.8;
-            case 4 -> decreasedPercentages = 3.2;
+        return switch (cookers.size()){
+            case 1 -> decreasedPercentages = 5000;
+            case 2 -> decreasedPercentages = 2600;
+            case 3 -> decreasedPercentages = 2100;
+            case 4 -> decreasedPercentages = 1600;
             default -> decreasedPercentages = 0;
 
         };
