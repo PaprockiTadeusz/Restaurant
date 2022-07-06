@@ -53,8 +53,8 @@ public class consoleClass {
         Scanner mainMenuScanner = new Scanner(System.in);
         System.out.println("\nWhat you want to do? \n" +
                 "\nKitchen and Menu Options \n###################################### \n" +
-                "1. Open Kitchen.Kitchen \n" +
-                "2. Stop Kitchen.Kitchen  \n" +
+                "1. Open Kitchen \n" +
+                "2. Stop Kitchen  \n" +
                 "3. Start Making Orders  \n" +
                 "4. Show daily income \n" +
                 "5. Show Current Orders  \n" +
@@ -66,16 +66,16 @@ public class consoleClass {
                 "\nAdding / Deleting Options \n###################################### \n" +
                 "11. Add new dish to Kitchen.Menu \n" +
                 "12. Delete dish from menu \n" +
-                "13. Employ new Employees.Employee \n" +
-                "14. Fire Employees.Employee \n" +
+                "13. Employ new Employee\n" +
+                "14. Fire Employee \n" +
                 "\nClient Options \n###################################### \n" +
-                "15. Show Kitchen.Menu \n" +
-                "16. Show Kitchen.Menu for Vegans \n" +
+                "15. Show Menu \n" +
+                "16. Show Menu for Vegans \n" +
                 "17. Show Spicy Meals \n" +
                 "18. Make Online Orders.Order \n" +
-                "19. Make Stationary Orders.Order \n" +
-                "20. Read Kitchen.Menu from a file \n" +
-                "21. Save Kitchen.Menu to a file \n");
+                "19. Make Stationary Orders \n" +
+                "20. Read Menu from a file \n" +
+                "21. Save Menu to a file \n");
 
         int chosenOption = mainMenuScanner.nextInt();
         mainMenuSwitch(chosenOption);
