@@ -1,5 +1,9 @@
+package Kitchen;
+
+import Employees.Cooker;
+import Orders.Order;
+
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class Kitchen {
 
@@ -21,11 +25,11 @@ public class Kitchen {
 
     public void startKitchen(){
         isOpened = true;
-        System.out.println("Kitchen is opened");
+        System.out.println("Kitchen.Kitchen is opened");
     }
     public void stopKitchen(){
         isOpened = false;
-        System.out.println("Kitchen is closed");
+        System.out.println("Kitchen.Kitchen is closed");
     }
     public double checkNumberOfCookers(){
         return switch (cookers.size()){

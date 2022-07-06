@@ -1,5 +1,7 @@
-import java.util.Timer;
-import java.util.TimerTask;
+package Kitchen;
+
+import Exceptions.NotAvailableException;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dish {
@@ -23,7 +25,7 @@ public class Dish {
 
     @Override
     public String toString() {
-        return "Dish{" +
+        return "Kitchen.Dish{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
                 ", price=" + price +
@@ -105,7 +107,7 @@ public class Dish {
                 dishThread.start();
                 dishThread.sleep((long) (1000));
                 isFinished = true;
-                System.out.println("* Dish is finished: " + getName() + " ✔");
+                System.out.println("* Kitchen.Dish is finished: " + getName() + " ✔");
             } catch (InterruptedException e) {}
         }
     public void skip(){

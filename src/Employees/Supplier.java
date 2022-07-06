@@ -1,7 +1,10 @@
+package Employees;
+
+import Orders.Order;
+import Threads.SupplierThread;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Supplier extends Employee {
     private static boolean isAvailable = true;

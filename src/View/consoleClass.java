@@ -1,3 +1,16 @@
+package View;
+
+import Employees.Cooker;
+import Employees.Employee;
+import Employees.Supplier;
+import Employees.Waiter;
+import Kitchen.Dish;
+import Kitchen.Kitchen;
+import Kitchen.Menu;
+import Orders.OnlineOrder;
+import Orders.Order;
+import Orders.StationaryOrder;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,8 +53,8 @@ public class consoleClass {
         Scanner mainMenuScanner = new Scanner(System.in);
         System.out.println("\nWhat you want to do? \n" +
                 "\nKitchen and Menu Options \n###################################### \n" +
-                "1. Open Kitchen \n" +
-                "2. Stop Kitchen  \n" +
+                "1. Open Kitchen.Kitchen \n" +
+                "2. Stop Kitchen.Kitchen  \n" +
                 "3. Start Making Orders  \n" +
                 "4. Show daily income \n" +
                 "5. Show Current Orders  \n" +
@@ -51,18 +64,18 @@ public class consoleClass {
                 "9. Get Tips  \n" +
                 "10. Show realised orders  \n" +
                 "\nAdding / Deleting Options \n###################################### \n" +
-                "11. Add new dish to Menu \n" +
+                "11. Add new dish to Kitchen.Menu \n" +
                 "12. Delete dish from menu \n" +
-                "13. Employ new Employee \n" +
-                "14. Fire Employee \n" +
+                "13. Employ new Employees.Employee \n" +
+                "14. Fire Employees.Employee \n" +
                 "\nClient Options \n###################################### \n" +
-                "15. Show Menu \n" +
-                "16. Show Menu for Vegans \n" +
+                "15. Show Kitchen.Menu \n" +
+                "16. Show Kitchen.Menu for Vegans \n" +
                 "17. Show Spicy Meals \n" +
-                "18. Make Online Order \n" +
-                "19. Make Stationary Order \n" +
-                "20. Read Menu from a file \n" +
-                "21. Save Menu to a file \n");
+                "18. Make Online Orders.Order \n" +
+                "19. Make Stationary Orders.Order \n" +
+                "20. Read Kitchen.Menu from a file \n" +
+                "21. Save Kitchen.Menu to a file \n");
 
         int chosenOption = mainMenuScanner.nextInt();
         mainMenuSwitch(chosenOption);
@@ -128,15 +141,15 @@ public class consoleClass {
         age = surnameOfEmpScanner.nextInt();
         System.out.println("Type phone number: ");
         telephoneNumber = phoneNumberScanner.nextInt();
-        System.out.println("Which type of employee you want to employ? \n1.Cooker\n2.Waiter\n3.Supplier");
+        System.out.println("Which type of employee you want to employ? \n1.Employees.Cooker\n2.Employees.Waiter\n3.Employees.Supplier");
         int choosenOption = addingEmployeeScanner.nextInt();
         switch(choosenOption){
             case 1 : cooker =  new Cooker(empName, empSurname, age, telephoneNumber, LocalDate.now()); cookers.add(cooker);employees.add(cooker); break;
             case 2 : waiter = new Waiter(empName, empSurname, age, telephoneNumber, LocalDate.now()); waiters.add(waiter);employees.add(waiter); break;
             case 3 : supplier = new Supplier(empName, empSurname, age, telephoneNumber, LocalDate.now()); suppliers.add(supplier); employees.add(supplier);break;
-            default :  System.out.println("Bad type. You have to add Employee again"); addEmployee();
+            default :  System.out.println("Bad type. You have to add Employees.Employee again"); addEmployee();
         }
-        System.out.println("!Added a new Employee! \n");
+        System.out.println("!Added a new Employees.Employee! \n");
 
 
     }
@@ -166,7 +179,7 @@ public class consoleClass {
       makeingOrder(numberScanner, order);
       orders.add(order);
       currentOrders.add(order);
-      System.out.println("Added new Online Order");
+      System.out.println("Added new Online Orders.Order");
 
 
   }
@@ -176,7 +189,7 @@ public class consoleClass {
         makeingOrder(numberScanner, order);
         orders.add(order);
         currentOrders.add(order);
-        System.out.println("Added new Stationary Order");
+        System.out.println("Added new Stationary Orders.Order");
 
   }
     private static void makeingOrder(Scanner numberScanner, Order order) {

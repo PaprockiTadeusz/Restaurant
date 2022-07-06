@@ -1,10 +1,20 @@
+package Restaurant;
+
+import Employees.Cooker;
+import Employees.Employee;
+import Employees.Supplier;
+import Employees.Waiter;
+import Kitchen.Kitchen;
+import Kitchen.Menu;
+import Orders.Order;
+import View.consoleClass;
+
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class Restaurant {
 
-    static ArrayList<Order> oldOrders = new ArrayList<>();
-    static ArrayList<Order> currentOrders = new ArrayList<>();
+    public static ArrayList<Order> oldOrders = new ArrayList<>();
+    public static ArrayList<Order> currentOrders = new ArrayList<>();
     static ArrayList<Order> orders = Order.initializeOrders();
 
 

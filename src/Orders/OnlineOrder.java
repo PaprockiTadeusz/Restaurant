@@ -1,7 +1,9 @@
+package Orders;
+
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class OnlineOrder extends Order{
+public class OnlineOrder extends Order {
 
     private LocalDateTime dateOfOreder;
 

@@ -1,5 +1,6 @@
+package Employees;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -72,7 +73,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "Employees.Employee{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
@@ -81,7 +82,7 @@ public class Employee {
                 '}';
     }
     public  boolean isCooker(){
-        return this.getClass().getName().equals("Cooker");
+        return this.getClass().getName().equals("Employees.Cooker");
     }
 
     static ArrayList<Employee> initializeEmployees(){
